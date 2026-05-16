@@ -1,0 +1,4 @@
+config.ini
+__pychache__/
+*.pyc
+.env
