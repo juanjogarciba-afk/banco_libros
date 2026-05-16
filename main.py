@@ -1,3 +1,6 @@
+from alumnos import crear_alumno, listar_alumnos
+
+
 def mostrar_menu():
     print("Banco de Libros")
     print("1. Gestion de alumnos")
@@ -11,7 +14,13 @@ def main():
         opcion = input("Escoge: ")
 
         if opcion == "1":
-            print("Gestion de alumnos ")
+            print("1. Listar alumnos")
+            print("2. Crear alumno")
+            sub = input("Elige una opcion: ")
+            if sub == "1":
+                listar_alumnos()
+            elif sub == "2":
+                crear_alumno()
         elif opcion == "2":
             print("Gestion de prestamos ")
         elif opcion == "3":
