@@ -1,4 +1,4 @@
-from alumnos import crear_alumno, listar_alumnos
+from alumnos import listar_alumnos, crear_alumno, modificar_alumno, eliminar_alumno
 
 
 def mostrar_menu():
@@ -16,13 +16,19 @@ def main():
         if opcion == "1":
             print("1. Listar alumnos")
             print("2. Crear alumno")
+            print("3. Modificar alumno")
+            print("4. Eliminar alumno")
             sub = input("Elige una opcion: ")
             if sub == "1":
                 listar_alumnos()
             elif sub == "2":
                 crear_alumno()
+            elif sub == "3":
+                modificar_alumno()
+            elif sub == "4":
+                eliminar_alumno()
         elif opcion == "2":
-            print("Gestion de prestamos ")
+            print("Gestion de prestamos")
         elif opcion == "3":
             print("Listados")
         elif opcion == "4":
