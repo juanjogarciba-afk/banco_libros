@@ -1,14 +1,16 @@
 from alumnos import listar_alumnos, crear_alumno, modificar_alumno, eliminar_alumno
 from libros import listar_libros, crear_libro, modificar_libro, eliminar_libro
-from materias import listar_materias, crear_materia, eliminar_materia,modificar_materia
+from materias import listar_materias, crear_materia, modificar_materia, eliminar_materia
+from cursos import listar_cursos, crear_curso, modificar_curso, eliminar_curso
 
 def mostrar_menu():
     print("Banco de Libros")
     print("1. Gestion de alumnos")
     print("2. Gestion de libros")
     print("3. Gestion de materias")
-    print("4. Gestion de prestamos")
-    print("6. Salir")
+    print("4. Gestion de cursos")
+    print("5. Gestion de prestamos")
+    print("7. Salir")
 
 def main():
     while True:
@@ -56,14 +58,29 @@ def main():
             elif sub == "3":
                 modificar_materia()
             elif sub == "4":
-                 eliminar_materia()
+                eliminar_materia()
         elif opcion == "4":
-            print("Gestion de prestamos")
+            print("1. Listar cursos")
+            print("2. Crear curso")
+            print("3. Modificar curso")
+            print("4. Eliminar curso")
+            sub = input("Elige una opcion: ")
+            if sub == "1":
+                listar_cursos()
+            elif sub == "2":
+                crear_curso()
+            elif sub == "3":
+                modificar_curso()
+            elif sub == "4":
+                eliminar_curso()
+        elif opcion == "5":
+            print("Gestion de prestamos (en construccion)")
         elif opcion == "6":
+            print("Listados (en construccion)")
+        elif opcion == "7":
             print("Salir")
             break
         else:
             print("Opcion no valida")
 
-main()
 main()
