@@ -48,14 +48,17 @@ def crear_libro():
     except mysql.connector.Error as e:
         print(f"Error al crear el libro: {e}")
 def modificar_libro():
-    listar_libros()
-    numero = int(input("Numero del libro a modificar: "))
-
     try:
         cursor = conexion.cursor()
         cursor.execute("SELECT * FROM libros")
         libros = cursor.fetchall()
 
+        if len(libros) == 0:
+            print("No hay libros en la base de datos")
+            return
+
+        listar_libros()
+        numero = int(input("Numero del libro a modificar: "))
         libro = libros[numero - 1]
 
         titulo = input("Nuevo titulo: ")
@@ -73,15 +76,19 @@ def modificar_libro():
 
 
 def eliminar_libro():
-    listar_libros()
-    numero = int(input("Numero del libro a eliminar: "))
-
     try:
         cursor = conexion.cursor()
         cursor.execute("SELECT * FROM libros")
         libros = cursor.fetchall()
 
+        if len(libros) == 0:
+            print("No hay libros en la base de datos")
+            return
+
+        listar_libros()
+        numero = int(input("Numero del libro a eliminar: "))
         libro = libros[numero - 1]
+
         confirmar = input(f"Seguro que quieres eliminar {libro[1]}? (s/n): ")
         if confirmar.lower() != "s":
             print("Operacion cancelada")

@@ -37,14 +37,17 @@ def crear_alumno():
 
 
 def modificar_alumno():
-    listar_alumnos()
-    numero = int(input("Numero del alumno a modificar: "))
-
     try:
         cursor = conexion.cursor()
         cursor.execute("SELECT * FROM alumnos")
         alumnos = cursor.fetchall()
 
+        if len(alumnos) == 0:
+            print("No hay alumnos en la base de datos")
+            return
+
+        listar_alumnos()
+        numero = int(input("Numero del alumno a modificar: "))
         alumno = alumnos[numero - 1]
 
         nombre = input("Nuevo nombre: ")
@@ -64,15 +67,19 @@ def modificar_alumno():
 
 
 def eliminar_alumno():
-    listar_alumnos()
-    numero = int(input("Numero del alumno a eliminar: "))
-
     try:
         cursor = conexion.cursor()
         cursor.execute("SELECT * FROM alumnos")
         alumnos = cursor.fetchall()
 
+        if len(alumnos) == 0:
+            print("No hay alumnos en la base de datos")
+            return
+
+        listar_alumnos()
+        numero = int(input("Numero del alumno a eliminar: "))
         alumno = alumnos[numero - 1]
+
         confirmar = input(f"Seguro que quieres eliminar a {alumno[2]}, {alumno[1]}? (s/n): ")
         if confirmar.lower() != "s":
             print("Operacion cancelada")
