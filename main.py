@@ -2,6 +2,7 @@ from alumnos import listar_alumnos, crear_alumno, modificar_alumno, eliminar_alu
 from libros import listar_libros, crear_libro, modificar_libro, eliminar_libro
 from materias import listar_materias, crear_materia, modificar_materia, eliminar_materia
 from cursos import listar_cursos, crear_curso, modificar_curso, eliminar_curso
+from prestamos import asignar_libros, ver_prestamos, registrar_devolucion
 
 def mostrar_menu():
     print("Banco de Libros")
@@ -74,7 +75,16 @@ def main():
             elif sub == "4":
                 eliminar_curso()
         elif opcion == "5":
-            print("Gestion de prestamos (en construccion)")
+            print("1. Asignar libros")
+            print("2. Ver prestamos")
+            print("3. Registrar devolucion")
+            sub = input("Elige una opcion: ")
+            if sub == "1":
+                 asignar_libros()
+            elif sub == "2":
+                ver_prestamos()
+            elif sub == "3":
+                registrar_devolucion()
         elif opcion == "6":
             print("Listados (en construccion)")
         elif opcion == "7":
