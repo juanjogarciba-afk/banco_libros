@@ -4,6 +4,7 @@ from materias import listar_materias, crear_materia, modificar_materia, eliminar
 from cursos import listar_cursos, crear_curso, modificar_curso, eliminar_curso
 from prestamos import asignar_libros, ver_prestamos, registrar_devolucion, buscar_prestamos, cambiar_estado_libro
 from carga import cargar_alumnos
+from exportar import copia_seguridad
 
 def mostrar_menu():
     print("Banco de Libros")
@@ -13,7 +14,8 @@ def mostrar_menu():
     print("4. Gestion de cursos")
     print("5. Gestion de prestamos")
     print("6. Carga de datos")
-    print("7. Salir")
+    print("7. Copia de seguridad")
+    print("8. Salir")
 
 def main():
     while True:
@@ -105,6 +107,8 @@ def main():
             if sub == "1":
                 cargar_alumnos()
         elif opcion == "7":
+            copia_seguridad()
+        elif opcion == "8":
             print("Salir")
             break
         else:
