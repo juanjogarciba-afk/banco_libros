@@ -204,3 +204,51 @@ def buscar_prestamos():
 
     except mysql.connector.Error as e:
         print(f"Error al buscar prestamos: {e}")
+
+def cambiar_estado_libro():
+    try:
+        cursor = conexion.cursor()
+
+        cursor.execute("SELECT * FROM alumnos")
+        alumnos = cursor.fetchall()
+
+        if len(alumnos) == 0:
+            print("No hay alumnos en la base de datos")
+            return
+
+        i = 1
+        for alumno in alumnos:
+            print(f"{i}. {alumno[2]}, {alumno[1]}")
+            i += 1
+        numero_alumno = int(input("Elige un alumno: "))
+        alumno = alumnos[numero_alumno - 1]
+
+        cursor.execute(
+            "SELECT acl.isbn, l.titulo, acl.curso, acl.estado FROM alumnoscursoslibros acl JOIN libros l ON acl.isbn = l.isbn WHERE acl.nie = %s",
+            (alumno[0],)
+        )
+        prestamos = cursor.fetchall()
+
+        if len(prestamos) == 0:
+            print("Este alumno no tiene prestamos")
+            return
+
+        i = 1
+        for prestamo in prestamos:
+            estado = "Prestado" if prestamo[3] == "P" else "Devuelto"
+            print(f"{i}. {prestamo[1]} - Estado: {estado}")
+            i += 1
+
+        numero = int(input("Elige un libro: "))
+        prestamo = prestamos[numero - 1]
+
+        nuevo_estado = input("Nuevo estado (P: Prestado, D: Devuelto): ")
+        cursor.execute(
+            "UPDATE alumnoscursoslibros SET estado = %s WHERE nie = %s AND isbn = %s AND curso = %s",
+            (nuevo_estado, alumno[0], prestamo[0], prestamo[2])
+        )
+        conexion.commit()
+        print("Estado cambiado correctamente")
+
+    except mysql.connector.Error as e:
+        print(f"Error al cambiar el estado: {e}")
