@@ -99,3 +99,69 @@ def eliminar_libro():
         print("Libro eliminado correctamente")
     except mysql.connector.Error as e:
         print(f"Error al eliminar el libro: {e}")
+
+def buscar_libros():
+    print("1. Buscar por titulo")
+    print("2. Buscar por autor")
+    print("3. Buscar por curso")
+    print("4. Buscar por materia")
+    sub = input("Elige un filtro: ")
+
+    try:
+        cursor = conexion.cursor()
+
+        if sub == "1":
+            titulo = input("Titulo: ")
+            cursor.execute(
+                "SELECT isbn, titulo, autor, numero_ejemplares FROM libros WHERE titulo LIKE %s",
+                (f"%{titulo}%",)
+            )
+        elif sub == "2":
+            autor = input("Autor: ")
+            cursor.execute(
+                "SELECT isbn, titulo, autor, numero_ejemplares FROM libros WHERE autor LIKE %s",
+                (f"%{autor}%",)
+            )
+        elif sub == "3":
+            cursor.execute("SELECT * FROM cursos")
+            cursos = cursor.fetchall()
+            i = 1
+            for curso in cursos:
+                print(f"{i}. {curso[1]} - {curso[0]}")
+                i += 1
+            numero = int(input("Elige un curso: "))
+            curso = cursos[numero - 1]
+            cursor.execute(
+                "SELECT isbn, titulo, autor, numero_ejemplares FROM libros WHERE id_curso = %s",
+                (curso[0],)
+            )
+        elif sub == "4":
+            cursor.execute("SELECT * FROM materias")
+            materias = cursor.fetchall()
+            i = 1
+            for materia in materias:
+                print(f"{i}. {materia[1]}")
+                i += 1
+            numero = int(input("Elige una materia: "))
+            materia = materias[numero - 1]
+            cursor.execute(
+                "SELECT isbn, titulo, autor, numero_ejemplares FROM libros WHERE id_materia = %s",
+                (materia[0],)
+            )
+        else:
+            print("Opcion no valida")
+            return
+
+        libros = cursor.fetchall()
+
+        if len(libros) == 0:
+            print("No se han encontrado libros")
+            return
+
+        i = 1
+        for libro in libros:
+            print(f"{i}. {libro[1]} - {libro[2]} - ISBN: {libro[0]} - Ejemplares: {libro[3]}")
+            i += 1
+
+    except mysql.connector.Error as e:
+        print(f"Error al buscar libros: {e}")

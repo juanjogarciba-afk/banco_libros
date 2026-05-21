@@ -90,3 +90,49 @@ def eliminar_alumno():
         print("Alumno eliminado correctamente")
     except mysql.connector.Error as e:
         print(f"Error al eliminar el alumno: {e}")
+
+def buscar_alumnos():
+    print("1. Buscar por nombre/apellidos")
+    print("2. Buscar por tramo de beca")
+    print("3. Buscar por bilingue")
+    sub = input("Elige un filtro: ")
+
+    try:
+        cursor = conexion.cursor()
+
+        if sub == "1":
+            texto = input("Nombre o apellidos: ")
+            cursor.execute(
+                "SELECT nie, nombre, apellidos, tramo, bilingue FROM alumnos WHERE nombre LIKE %s OR apellidos LIKE %s",
+                (f"%{texto}%", f"%{texto}%")
+            )
+        elif sub == "2":
+            tramo = input("Tramo (0, I, II): ")
+            cursor.execute(
+                "SELECT nie, nombre, apellidos, tramo, bilingue FROM alumnos WHERE tramo = %s",
+                (tramo,)
+            )
+        elif sub == "3":
+            bilingue = input("Bilingue (s/n): ")
+            bilingue_valor = 1 if bilingue.lower() == "s" else 0
+            cursor.execute(
+                "SELECT nie, nombre, apellidos, tramo, bilingue FROM alumnos WHERE bilingue = %s",
+                (bilingue_valor,)
+            )
+        else:
+            print("Opcion no valida")
+            return
+
+        alumnos = cursor.fetchall()
+
+        if len(alumnos) == 0:
+            print("No se han encontrado alumnos")
+            return
+
+        i = 1
+        for alumno in alumnos:
+            print(f"{i}. {alumno[2]}, {alumno[1]} - Tramo: {alumno[3]} - Bilingue: {alumno[4]}")
+            i += 1
+
+    except mysql.connector.Error as e:
+        print(f"Error al buscar alumnos: {e}")

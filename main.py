@@ -1,8 +1,8 @@
-from alumnos import listar_alumnos, crear_alumno, modificar_alumno, eliminar_alumno
-from libros import listar_libros, crear_libro, modificar_libro, eliminar_libro
+from alumnos import listar_alumnos, crear_alumno, modificar_alumno, buscar_alumnos, eliminar_alumno
+from libros import listar_libros, crear_libro, modificar_libro, eliminar_libro, buscar_libros
 from materias import listar_materias, crear_materia, modificar_materia, eliminar_materia
 from cursos import listar_cursos, crear_curso, modificar_curso, eliminar_curso
-from prestamos import asignar_libros, ver_prestamos, registrar_devolucion
+from prestamos import asignar_libros, ver_prestamos, registrar_devolucion, buscar_prestamos
 from carga import cargar_alumnos
 
 def mostrar_menu():
@@ -13,8 +13,7 @@ def mostrar_menu():
     print("4. Gestion de cursos")
     print("5. Gestion de prestamos")
     print("6. Carga de datos")
-    print("7. Listados")
-    print("8. Salir")
+    print("7. Salir")
 
 def main():
     while True:
@@ -26,6 +25,7 @@ def main():
             print("2. Crear alumno")
             print("3. Modificar alumno")
             print("4. Eliminar alumno")
+            print("5. Buscar alumnos")
             sub = input("Elige una opcion: ")
             if sub == "1":
                 listar_alumnos()
@@ -35,11 +35,14 @@ def main():
                 modificar_alumno()
             elif sub == "4":
                 eliminar_alumno()
+            elif sub == "5":
+                buscar_alumnos()
         elif opcion == "2":
             print("1. Listar libros")
             print("2. Crear libro")
             print("3. Modificar libro")
             print("4. Eliminar libro")
+            print("5. Buscar libros")
             sub = input("Elige una opcion: ")
             if sub == "1":
                 listar_libros()
@@ -49,6 +52,8 @@ def main():
                 modificar_libro()
             elif sub == "4":
                 eliminar_libro()
+            elif sub == "5":
+                buscar_libros()
         elif opcion == "3":
             print("1. Listar materias")
             print("2. Crear materia")
@@ -81,13 +86,16 @@ def main():
             print("1. Asignar libros")
             print("2. Ver prestamos")
             print("3. Registrar devolucion")
+            print("4. Buscar prestamos")
             sub = input("Elige una opcion: ")
             if sub == "1":
-                 asignar_libros()
+                asignar_libros()
             elif sub == "2":
                 ver_prestamos()
             elif sub == "3":
                 registrar_devolucion()
+            elif sub == "4":
+                buscar_prestamos()
         elif opcion == "6":
             print("1. Cargar alumnos desde CSV")
             sub = input("Elige una opcion: ")
