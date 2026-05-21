@@ -2,7 +2,7 @@ from alumnos import listar_alumnos, crear_alumno, modificar_alumno, buscar_alumn
 from libros import listar_libros, crear_libro, modificar_libro, eliminar_libro, buscar_libros
 from materias import listar_materias, crear_materia, modificar_materia, eliminar_materia
 from cursos import listar_cursos, crear_curso, modificar_curso, eliminar_curso
-from prestamos import asignar_libros, ver_prestamos, registrar_devolucion, buscar_prestamos, cambiar_estado_libro
+from prestamos import asignar_libros, generar_contrato, registrar_devolucion, buscar_prestamos, cambiar_estado_libro, ver_prestamos
 from carga import cargar_alumnos
 from exportar import copia_seguridad, exportar_datos
 
@@ -91,17 +91,20 @@ def main():
             print("3. Registrar devolucion")
             print("4. Buscar prestamos")
             print("5. Cambiar estado de libro")
+            print("6. Generar contrato")
             sub = input("Elige una opcion: ")
             if sub == "1":
                 asignar_libros()
             elif sub == "2":
-                    ver_prestamos()
+                ver_prestamos()
             elif sub == "3":
                 registrar_devolucion()
             elif sub == "4":
-                buscar_prestamos()
+                 buscar_prestamos()
             elif sub == "5":
                 cambiar_estado_libro()
+            elif sub == "6":
+                generar_contrato()
         elif opcion == "6":
             print("1. Cargar alumnos desde CSV")
             sub = input("Elige una opcion: ")

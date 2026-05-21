@@ -252,3 +252,56 @@ def cambiar_estado_libro():
 
     except mysql.connector.Error as e:
         print(f"Error al cambiar el estado: {e}")
+
+def generar_contrato():
+    try:
+        cursor = conexion.cursor()
+
+        cursor.execute("SELECT * FROM alumnos")
+        alumnos = cursor.fetchall()
+
+        if len(alumnos) == 0:
+            print("No hay alumnos en la base de datos")
+            return
+
+        i = 1
+        for alumno in alumnos:
+            print(f"{i}. {alumno[2]}, {alumno[1]}")
+            i += 1
+        numero_alumno = int(input("Elige un alumno: "))
+        alumno = alumnos[numero_alumno - 1]
+
+        cursor.execute(
+            "SELECT acl.isbn, l.titulo, acl.estado FROM alumnoscursoslibros acl JOIN libros l ON acl.isbn = l.isbn WHERE acl.nie = %s",
+            (alumno[0],)
+        )
+        prestamos = cursor.fetchall()
+
+        if len(prestamos) == 0:
+            print("Este alumno no tiene prestamos")
+            return
+
+        nombre = input("Nombre del alumno: ")
+        firma = input("Firma: ")
+
+        nombre_fichero = f"contrato_{alumno[0]}.txt"
+        with open(nombre_fichero, "w") as fichero:
+            fichero.write("SUBVENCION AYUDAS PRESTAMO LIBROS DE TEXTO ESO\n")
+            fichero.write(f"Alumno: {alumno[2]}, {alumno[1]}\n")
+            fichero.write(f"Tramo: {alumno[3]}\n")
+            fichero.write(f"Bilingue: {'Si' if alumno[4] == 1 else 'No'}\n\n")
+
+            i = 1
+            for prestamo in prestamos:
+                estado = "Entregado" if prestamo[2] == "P" else "Pendiente de entregar"
+                fichero.write(f"{i}. {prestamo[1]} - {estado}\n")
+                i += 1
+
+            fichero.write(f"\nNombre: {nombre}\n")
+            fichero.write(f"Firma: {firma}\n")
+            fichero.write(f"Fecha: {date.today()}\n")
+
+        print(f"Contrato generado en {nombre_fichero}")
+
+    except mysql.connector.Error as e:
+        print(f"Error al generar el contrato: {e}")
