@@ -305,3 +305,41 @@ def generar_contrato():
 
     except mysql.connector.Error as e:
         print(f"Error al generar el contrato: {e}")
+
+def cerrar_prestamo():
+    try:
+        cursor = conexion.cursor()
+
+        cursor.execute("SELECT * FROM alumnos")
+        alumnos = cursor.fetchall()
+
+        if len(alumnos) == 0:
+            print("No hay alumnos en la base de datos")
+            return
+
+        i = 1
+        for alumno in alumnos:
+            print(f"{i}. {alumno[2]}, {alumno[1]}")
+            i += 1
+        numero_alumno = int(input("Elige un alumno: "))
+        alumno = alumnos[numero_alumno - 1]
+
+        cursor.execute(
+            "SELECT estado FROM alumnoscursoslibros WHERE nie = %s",
+            (alumno[0],)
+        )
+        prestamos = cursor.fetchall()
+
+        if len(prestamos) == 0:
+            print("Este alumno no tiene prestamos")
+            return
+
+        todos_devueltos = all(prestamo[0] == "D" for prestamo in prestamos)
+
+        if todos_devueltos:
+            print(f"{alumno[2]}, {alumno[1]} ha devuelto todos los libros y tiene derecho al prestamo el curso siguiente")
+        else:
+            print(f"{alumno[2]}, {alumno[1]} todavia tiene libros pendientes de devolver")
+
+    except mysql.connector.Error as e:
+        print(f"Error al cerrar el prestamo: {e}")

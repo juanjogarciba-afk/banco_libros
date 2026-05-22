@@ -1,10 +1,10 @@
-from alumnos import listar_alumnos, crear_alumno, modificar_alumno, buscar_alumnos, eliminar_alumno
-from libros import listar_libros, crear_libro, modificar_libro, eliminar_libro, buscar_libros
-from materias import listar_materias, crear_materia, modificar_materia, eliminar_materia
-from cursos import listar_cursos, crear_curso, modificar_curso, eliminar_curso
-from prestamos import asignar_libros, generar_contrato, registrar_devolucion, buscar_prestamos, cambiar_estado_libro, ver_prestamos
-from carga import cargar_alumnos
-from exportar import copia_seguridad, exportar_datos
+from src.alumnos import listar_alumnos, crear_alumno, modificar_alumno, buscar_alumnos, eliminar_alumno
+from src.libros import listar_libros, crear_libro, modificar_libro, eliminar_libro, buscar_libros
+from src.materias import listar_materias, crear_materia, modificar_materia, eliminar_materia
+from src.cursos import listar_cursos, crear_curso, modificar_curso, eliminar_curso
+from src.prestamos import asignar_libros,cerrar_prestamo, generar_contrato, registrar_devolucion, buscar_prestamos, cambiar_estado_libro, ver_prestamos
+from src.carga import cargar_alumnos, vaciar_bbdd
+from src.exportar import copia_seguridad, exportar_datos, exportar_listados
 
 def mostrar_menu():
     print("Banco de Libros")
@@ -29,6 +29,7 @@ def main():
             print("3. Modificar alumno")
             print("4. Eliminar alumno")
             print("5. Buscar alumnos")
+            print("0. Volver")
             sub = input("Elige una opcion: ")
             if sub == "1":
                 listar_alumnos()
@@ -40,12 +41,15 @@ def main():
                 eliminar_alumno()
             elif sub == "5":
                 buscar_alumnos()
+            elif sub == "0":
+                continue
         elif opcion == "2":
             print("1. Listar libros")
             print("2. Crear libro")
             print("3. Modificar libro")
             print("4. Eliminar libro")
             print("5. Buscar libros")
+            print("0. Volver")
             sub = input("Elige una opcion: ")
             if sub == "1":
                 listar_libros()
@@ -57,11 +61,14 @@ def main():
                 eliminar_libro()
             elif sub == "5":
                 buscar_libros()
+            elif sub == "0":
+                continue
         elif opcion == "3":
             print("1. Listar materias")
             print("2. Crear materia")
             print("3. Modificar materia")
             print("4. Eliminar materia")
+            print("0. Volver")
             sub = input("Elige una opcion: ")
             if sub == "1":
                 listar_materias()
@@ -71,11 +78,14 @@ def main():
                 modificar_materia()
             elif sub == "4":
                 eliminar_materia()
+            elif sub == "0":
+                continue
         elif opcion == "4":
             print("1. Listar cursos")
             print("2. Crear curso")
             print("3. Modificar curso")
             print("4. Eliminar curso")
+            print("0. Volver")
             sub = input("Elige una opcion: ")
             if sub == "1":
                 listar_cursos()
@@ -85,6 +95,8 @@ def main():
                 modificar_curso()
             elif sub == "4":
                 eliminar_curso()
+            elif sub == "0":
+                continue
         elif opcion == "5":
             print("1. Asignar libros")
             print("2. Ver prestamos")
@@ -92,6 +104,8 @@ def main():
             print("4. Buscar prestamos")
             print("5. Cambiar estado de libro")
             print("6. Generar contrato")
+            print("7. Cerrar prestamo")
+            print("0. Volver")
             sub = input("Elige una opcion: ")
             if sub == "1":
                 asignar_libros()
@@ -100,20 +114,39 @@ def main():
             elif sub == "3":
                 registrar_devolucion()
             elif sub == "4":
-                 buscar_prestamos()
+                buscar_prestamos()
             elif sub == "5":
                 cambiar_estado_libro()
             elif sub == "6":
                 generar_contrato()
+            elif sub == "7":
+                cerrar_prestamo()
+            elif sub == "0":
+                continue
         elif opcion == "6":
             print("1. Cargar alumnos desde CSV")
+            print("2. Vaciar BBDD")
+            print("0. Volver")
             sub = input("Elige una opcion: ")
             if sub == "1":
                 cargar_alumnos()
+            elif sub == "2":
+                vaciar_bbdd()
+            elif sub == "0":
+                continue
         elif opcion == "7":
             copia_seguridad()
         elif opcion == "8":
+            print("1. Exportar datos para curso siguiente")
+            print("2. Exportar listados")
+            print("0. Volver")
+            sub = input("Elige una opcion: ")
+        if sub == "1":
             exportar_datos()
+        elif sub == "2":
+            exportar_listados()
+        elif sub == "0":
+            continue
         elif opcion == "9":
             print("Salir")
             break

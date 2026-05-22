@@ -48,3 +48,27 @@ def cargar_alumnos():
         print("Fichero no encontrado")
     except mysql.connector.Error as e:
         print(f"Error al cargar los alumnos: {e}")
+
+
+def vaciar_bbdd():
+    confirmar = input("Seguro que quieres vaciar la base de datos? (s/n): ")
+    if confirmar.lower() != "s":
+        print("Operacion cancelada")
+        return
+
+    confirmar2 = input("Esta accion es irreversible. Seguro? (s/n): ")
+    if confirmar2.lower() != "s":
+        print("Operacion cancelada")
+        return
+
+    try:
+        cursor = conexion.cursor()
+        cursor.execute("DELETE FROM alumnoscursoslibros")
+        cursor.execute("DELETE FROM libros")
+        cursor.execute("DELETE FROM alumnos")
+        cursor.execute("DELETE FROM cursos")
+        cursor.execute("DELETE FROM materias")
+        conexion.commit()
+        print("Base de datos vaciada correctamente")
+    except mysql.connector.Error as e:
+        print(f"Error al vaciar la base de datos: {e}")

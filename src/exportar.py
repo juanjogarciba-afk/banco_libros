@@ -85,3 +85,50 @@ def exportar_datos():
 
     except mysql.connector.Error as e:
         print(f"Error al exportar los datos: {e}")
+
+def exportar_listados():
+    print("1. Exportar listado de alumnos")
+    print("2. Exportar listado de libros")
+    print("3. Exportar listado de prestamos")
+    sub = input("Elige una opcion: ")
+
+    try:
+        cursor = conexion.cursor()
+
+        if sub == "1":
+            cursor.execute("SELECT nie, nombre, apellidos, tramo, bilingue FROM alumnos")
+            alumnos = cursor.fetchall()
+            with open("listado_alumnos.csv", "w", newline="") as fichero:
+                writer = csv.writer(fichero)
+                writer.writerow(["nie", "nombre", "apellidos", "tramo", "bilingue"])
+                for alumno in alumnos:
+                    writer.writerow(alumno)
+            print("Listado exportado en listado_alumnos.csv")
+
+        elif sub == "2":
+            cursor.execute("SELECT isbn, titulo, autor, numero_ejemplares FROM libros")
+            libros = cursor.fetchall()
+            with open("listado_libros.csv", "w", newline="") as fichero:
+                writer = csv.writer(fichero)
+                writer.writerow(["isbn", "titulo", "autor", "numero_ejemplares"])
+                for libro in libros:
+                    writer.writerow(libro)
+            print("Listado exportado en listado_libros.csv")
+
+        elif sub == "3":
+            cursor.execute(
+                "SELECT a.nie, a.nombre, a.apellidos, l.titulo, acl.fecha_entrega, acl.fecha_devolucion, acl.estado FROM alumnoscursoslibros acl JOIN alumnos a ON acl.nie = a.nie JOIN libros l ON acl.isbn = l.isbn"
+            )
+            prestamos = cursor.fetchall()
+            with open("listado_prestamos.csv", "w", newline="") as fichero:
+                writer = csv.writer(fichero)
+                writer.writerow(["nie", "nombre", "apellidos", "libro", "fecha_entrega", "fecha_devolucion", "estado"])
+                for prestamo in prestamos:
+                    writer.writerow(prestamo)
+            print("Listado exportado en listado_prestamos.csv")
+
+        else:
+            print("Opcion no valida")
+
+    except mysql.connector.Error as e:
+        print(f"Error al exportar el listado: {e}")
